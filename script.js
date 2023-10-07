@@ -18,13 +18,13 @@ function startWebcam() {
 
 function getLabeledFaceDescriptions(){
 
-    const labels = ["Hau","Toan","Thay_Thai_Anh","Ho_Chi_Minh","Obama","DonaldTrump"]
+    const labels = ["Hau","Ho_Chi_Minh"]
     return Promise.all(
         labels.map(async (label) => {
             descriptions = []
     
             for (i=1;i<=2;i++){
-                const image = await faceapi.fetcImage(`./labels/${label}/${i}.jpg`)
+                const image = await faceapi.fetchImage(`./labels/${label}/${i}.jpg`)
                 
                 const detections = await faceapi
                     .detectSingleFace(image)
@@ -39,7 +39,7 @@ function getLabeledFaceDescriptions(){
 }
 async function faceRecognition(){
     const labeledFaceDescriptors = await getLabeledFaceDescriptions()
-    const faceMatcher = new faceapi.FaceMatcher(LabeledFaceDescriptors)
+    const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors)
 
     video.addEventListener('play', ()=>{
         const canvas = faceapi.createCanvasFromMedia(video)
